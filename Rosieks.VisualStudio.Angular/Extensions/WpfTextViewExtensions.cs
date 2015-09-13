@@ -1,16 +1,13 @@
-﻿using Microsoft.VisualStudio.JSLS;
-using Microsoft.VisualStudio.Language.StandardClassification;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Tagging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Rosieks.VisualStudio.Angular.Extensions
+﻿namespace Rosieks.VisualStudio.Angular.Extensions
 {
+    using Microsoft.VisualStudio.JSLS;
+    using Microsoft.VisualStudio.Language.StandardClassification;
+    using Microsoft.VisualStudio.Text;
+    using Microsoft.VisualStudio.Text.Editor;
+    using Microsoft.VisualStudio.Text.Tagging;
+    using System;
+    using System.Linq;
+
     internal static class WpfTextViewExtensions
     {
         private static readonly Type jsTaggerType = typeof(JavaScriptLanguageService).Assembly.GetType("Microsoft.VisualStudio.JSLS.Classification.Tagger");

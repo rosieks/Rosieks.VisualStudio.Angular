@@ -30,7 +30,6 @@ Avoid mistyping in controller name defintion.
 
 Version 0.2
 
-* Go To Definition for controllers
 * Go To Definition for directives
 
 Version 0.3

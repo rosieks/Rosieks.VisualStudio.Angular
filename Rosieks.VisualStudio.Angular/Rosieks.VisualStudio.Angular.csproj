@@ -84,6 +84,7 @@
     <Compile Include="Extensions\TextViewExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\NgController.cs" />
+    <Compile Include="Services\NgDirective.cs" />
     <Compile Include="Services\NgHierarchy.cs" />
     <Compile Include="Services\NgHierarchyFactory.cs" />
   </ItemGroup>

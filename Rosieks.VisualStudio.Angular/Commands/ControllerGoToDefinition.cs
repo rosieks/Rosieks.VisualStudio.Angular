@@ -1,20 +1,16 @@
-﻿using EnvDTE;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.TextManager.Interop;
-using Rosieks.VisualStudio.Angular.Extensions;
-using Rosieks.VisualStudio.Angular.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Rosieks.VisualStudio.Angular.Extensions;
-using Microsoft.VisualStudio.Language.StandardClassification;
-using Microsoft.VisualStudio.Shell;
-
-namespace Rosieks.VisualStudio.Angular.Commands
+﻿namespace Rosieks.VisualStudio.Angular.Commands
 {
+    using EnvDTE;
+    using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Language.StandardClassification;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Text.Editor;
+    using Microsoft.VisualStudio.TextManager.Interop;
+    using Rosieks.VisualStudio.Angular.Extensions;
+    using Rosieks.VisualStudio.Angular.Services;
+    using System;
+    using System.Linq;
+
     internal class ControllerGoToDefinition : CommandTargetBase<VSConstants.VSStd97CmdID>
     {
         private readonly DTE dte;

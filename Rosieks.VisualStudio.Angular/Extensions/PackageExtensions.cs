@@ -1,14 +1,9 @@
-﻿using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Shell.Interop;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Rosieks.VisualStudio.Angular.Extensions
+﻿namespace Rosieks.VisualStudio.Angular.Extensions
 {
+    using Microsoft.VisualStudio.Shell.Interop;
+    using System;
+    using System.Runtime.InteropServices;
+
     internal static class PackageExtensions
     {
         public static string GetCurrentDocumentPath(this IServiceProvider serviceProvider)
