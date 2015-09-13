@@ -44,7 +44,7 @@
             }
 
             var callingFilename = this.textBuffer.GetFileName();
-            var appHierarchy = AppHierarchyFactory.Find(callingFilename);
+            var appHierarchy = NgHierarchyFactory.Find(callingFilename);
 
             IEnumerable<Completion> results = null;
             results = this.GetCompletions(appHierarchy);
@@ -59,14 +59,14 @@
             ));
         }
 
-        private IEnumerable<Completion> GetCompletions(AppHierarchy appHierarchy)
+        private IEnumerable<Completion> GetCompletions(NgHierarchy appHierarchy)
         {
             return appHierarchy
                 .Controllers
                 .Value
                 .Select(p => new Completion(
-                    p,
-                    p,
+                    p.Name,
+                    p.Name,
                     "",
                     controllerIcon,
                     "Controller"));

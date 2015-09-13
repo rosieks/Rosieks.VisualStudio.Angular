@@ -6,14 +6,14 @@
     using System.Text;
     using System.Threading.Tasks;
 
-    internal class AppHierarchy
+    internal class NgHierarchy
     {
-        public AppHierarchy()
+        public NgHierarchy()
         {
         }
 
         public string RootPath { get; set; }
 
-        public Lazy<IReadOnlyList<string>> Controllers { get; set; }
+        public Lazy<IReadOnlyList<NgController>> Controllers { get; set; }
     }
 }

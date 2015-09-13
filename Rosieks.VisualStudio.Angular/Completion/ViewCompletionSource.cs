@@ -46,7 +46,7 @@
             }
 
             var callingFilename = this.textBuffer.GetFileName();
-            var appHierarchy = AppHierarchyFactory.Find(callingFilename);
+            var appHierarchy = NgHierarchyFactory.Find(callingFilename);
 
             IEnumerable<Completion> results = null;
             if (String.IsNullOrWhiteSpace(info.Item1))
@@ -73,7 +73,7 @@
             ));
         }
 
-        private IEnumerable<Completion> GetRelativeCompletions(AppHierarchy appHierarchy, string item1)
+        private IEnumerable<Completion> GetRelativeCompletions(NgHierarchy appHierarchy, string item1)
         {
             var views = Directory
                 .EnumerateFiles(appHierarchy.RootPath + item1, "*.html", SearchOption.TopDirectoryOnly)
@@ -96,7 +96,7 @@
             return directories.Concat(views);
         }
 
-        private IEnumerable<Completion> GetRootCompletions(AppHierarchy appHierarchy)
+        private IEnumerable<Completion> GetRootCompletions(NgHierarchy appHierarchy)
         {
             var views = Directory
                 .EnumerateFiles(appHierarchy.RootPath, "*.html", SearchOption.TopDirectoryOnly)
