@@ -8,11 +8,12 @@
 
     internal class AppHierarchy
     {
-        public AppHierarchy(string rootPath)
+        public AppHierarchy()
         {
-            this.RootPath = rootPath;
         }
 
-        public string RootPath { get; private set; }
+        public string RootPath { get; set; }
+
+        public Lazy<IReadOnlyList<string>> Controllers { get; set; }
     }
 }
