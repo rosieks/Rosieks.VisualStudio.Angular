@@ -53,7 +53,7 @@
 
         private static string CreateDashedName(string value)
         {
-            return Regex.Replace(value, @"(?<!-)([A-Z])", "-$1");
+            return Regex.Replace(value, @"(?<!-)([A-Z])", "-$1").ToLower();
         }
 
         private static IReadOnlyList<NgController> FindControllers(string rootPath)

@@ -26,11 +26,11 @@ Avoid mistyping in controller name defintion.
 
 <sub>Version: 0.2</sub>
 
+#### Go To Definition for directives in HTML
+
+<sub>Version: 0.3</sub>
+
 #### Roadmap
-
-Version 0.2
-
-* Go To Definition for directives
 
 Version 0.3
 

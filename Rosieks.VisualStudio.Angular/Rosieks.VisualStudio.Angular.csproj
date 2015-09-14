@@ -69,6 +69,7 @@
     <Compile Include="AngularPackage.cs" />
     <Compile Include="Commands\CommandTargetBase.cs" />
     <Compile Include="Commands\ControllerGoToDefinition.cs" />
+    <Compile Include="Commands\DirectiveGoToDefinition.cs" />
     <Compile Include="Commands\GoToCodeCmd.cs" />
     <Compile Include="Commands\GoToViewCmd.cs" />
     <Compile Include="Commands\TextViewCreationListener.cs" />
@@ -111,6 +112,14 @@
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Html.Core, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\Web Tools\Editors\Microsoft.Html.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Html.Editor, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\Web Tools\Editors\Microsoft.Html.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.VisualStudio.CommandBars, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>

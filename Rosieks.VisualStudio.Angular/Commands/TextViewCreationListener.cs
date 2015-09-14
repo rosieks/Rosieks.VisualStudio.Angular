@@ -23,6 +23,7 @@
             var textView = EditorAdaptersFactoryService.GetWpfTextView(textViewAdapter);
 
             textView.Properties.GetOrCreateSingletonProperty(() => new ControllerGoToDefinition(textViewAdapter, textView, AngularPackage.DTE, this.StandardClassificationService));
+            textView.Properties.GetOrCreateSingletonProperty(() => new DirectiveGoToDefinition(textViewAdapter, textView, AngularPackage.DTE));
         }
     }
 }
