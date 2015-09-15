@@ -21,6 +21,14 @@ namespace Rosieks.VisualStudio.Angular.Services
 
         public string ViewFileName { get; set; }
 
-        public NgDirectiveRestrict Restrict { get; internal set; }
+        public NgDirectiveRestrict Restrict { get; set; }
+
+        public NgDirectiveAttribute[] Attributes { get; set; }
+    }
+
+    internal class NgDirectiveAttribute
+    {
+        public string DashedName { get; set; }
+        public string Name { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Completion
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Windows.Media;
@@ -30,8 +31,36 @@
         {
             string fileName = context.Document.TextBuffer.GetFileName();
             var ngHierarchy = NgHierarchyFactory.Find(fileName);
+            var completions = new List<HtmlCompletion>();
 
-            return ngHierarchy.Directives.Value
+            AddDirectives(context, ngHierarchy, completions);
+            AddDirectiveAttributes(context, ngHierarchy, completions);
+
+            return completions;
+        }
+
+        private static void AddDirectiveAttributes(HtmlCompletionContext context, NgHierarchy ngHierarchy, List<HtmlCompletion> completions)
+        {
+            var directive = ngHierarchy.Directives.Value.FirstOrDefault(x => x.Restrict.HasFlag(NgDirectiveRestrict.Element) && x.DashedName == context.Element.Name);
+            if (directive != null)
+            {
+                var attributes = directive.Attributes
+                    .Select(
+                        a => new HtmlCompletion(
+                            a.DashedName,
+                            a.DashedName,
+                            a.Name,
+                            AttributeIcon,
+                            "DirectiveAttribute",
+                            context.Session));
+
+                completions.AddRange(attributes);
+            }
+        }
+
+        private static void AddDirectives(HtmlCompletionContext context, NgHierarchy ngHierarchy, List<HtmlCompletion> completions)
+        {
+            var directives = ngHierarchy.Directives.Value
                 .Where(d => d.Restrict.HasFlag(NgDirectiveRestrict.Attribute))
                 .Select(
                     d => new HtmlCompletion(
@@ -40,8 +69,9 @@
                         d.Name,
                         AttributeIcon,
                         "Directive",
-                        context.Session))
-                .ToList();
+                        context.Session));
+
+            completions.AddRange(directives);
         }
     }
 }

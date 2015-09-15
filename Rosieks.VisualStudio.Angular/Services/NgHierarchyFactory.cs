@@ -49,7 +49,51 @@
                 CodeFileName = file,
                 ViewFileName = file.Replace(".js", ".html"),
                 Restrict = NgDirectiveRestrict.All, // TODO: Add detection of restriction
+                Attributes = ParseScope(content, x),
             });
+        }
+
+        private static NgDirectiveAttribute[] ParseScope(string content, Match directiveMatch)
+        {
+            var regex = new Regex(@"scope\s*\:\s*\{([^\}]*)\}");
+            var postDirectiveCode = content.Substring(directiveMatch.Index + directiveMatch.Length);
+            var match = regex.Match(postDirectiveCode);
+            if (match != null && match.Groups.Count == 2)
+            {
+                return match.Groups[1].Value
+                    .Split(',')
+                    .Select(keyValuePair =>
+                        {
+                            var parts = keyValuePair.Split(':').Select(x => x.Trim()).ToArray();
+                            if (parts.Length == 2)
+                            {
+                                var key = parts[0];
+                                var value = parts[1].Length >= 3 ? parts[1].Substring(2, parts[1].Length - 3) : null;
+                                if (value == null)
+                                {
+                                    return null;
+                                }
+                                else if (value == string.Empty)
+                                {
+                                    return new NgDirectiveAttribute { Name = key, DashedName = CreateDashedName(key) };
+                                }
+                                else
+                                {
+                                    return new NgDirectiveAttribute { Name = value, DashedName = CreateDashedName(value) };
+                                }
+                            }
+                            else
+                            {
+                                return null;
+                            }
+                        })
+                    .Where(x => x != null)
+                    .ToArray();
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private static string CreateDashedName(string value)

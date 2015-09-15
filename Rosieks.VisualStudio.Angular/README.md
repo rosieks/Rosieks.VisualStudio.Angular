@@ -34,18 +34,15 @@ Avoid mistyping in controller name defintion.
 
 <sub>Version: 0.3</sub>
 
+#### Intellisense for directive attributes based on scope
+
+<sub>Version: 0.4</sub>
+
 #### Roadmap
 
-Version 0.4
-
+* Better support for projects that doesn't support John Papa's guide
 * Validation for controllers
 * Validation for templateUrl
-
-Version 0.5
-
 * Add view action
 * Add controller/directive action
-
-Version 0.6
-
-* Support for TypeScript
+* Support for TypeScript/ES6
