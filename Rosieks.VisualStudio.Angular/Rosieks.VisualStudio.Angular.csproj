@@ -73,6 +73,8 @@
     <Compile Include="Commands\GoToCodeCmd.cs" />
     <Compile Include="Commands\GoToViewCmd.cs" />
     <Compile Include="Commands\TextViewCreationListener.cs" />
+    <Compile Include="Completion\DirectiveAttributeCompletion.cs" />
+    <Compile Include="Completion\DirectiveElementCompletion.cs" />
     <Compile Include="Completion\JavaScriptIntellisenseController.cs" />
     <Compile Include="Completion\ControllerCompletionSource.cs" />
     <Compile Include="Completion\ViewCompletionSource.cs" />
@@ -234,6 +236,10 @@
       <HintPath>..\packages\Microsoft.VisualStudio.Validation.14.0.50702\lib\net45\Microsoft.VisualStudio.Validation.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Web.Core, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\Web Tools\Editors\Microsoft.Web.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Editor, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\Extensions\Microsoft\Web Tools\Editors\Microsoft.Web.Editor.dll</HintPath>
@@ -252,6 +258,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\HtmlElement.png" />
     <Resource Include="Resources\GoToViewCmd.png" />
     <Resource Include="Resources\GoToCodeCmd.png" />
     <VSCTCompile Include="AngularPackage.vsct">

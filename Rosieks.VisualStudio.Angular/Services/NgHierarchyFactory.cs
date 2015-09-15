@@ -47,7 +47,8 @@
                 Name = x.Groups[1].Value,
                 DashedName = CreateDashedName(x.Groups[1].Value),
                 CodeFileName = file,
-                ViewFileName = file.Replace(".js", ".html")
+                ViewFileName = file.Replace(".js", ".html"),
+                Restrict = NgDirectiveRestrict.All, // TODO: Add detection of restriction
             });
         }
 

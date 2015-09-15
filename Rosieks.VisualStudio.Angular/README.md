@@ -28,13 +28,13 @@ Avoid mistyping in controller name defintion.
 
 #### Go To Definition for directives in HTML
 
+<sub>Version: 0.2</sub>
+
+#### Intellisense for directives in HTML
+
 <sub>Version: 0.3</sub>
 
 #### Roadmap
-
-Version 0.3
-
-* Intellisense for directives in HTML
 
 Version 0.4
 
