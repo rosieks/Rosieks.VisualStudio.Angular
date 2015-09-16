@@ -2,9 +2,21 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     internal class NgHierarchy
     {
+        internal static readonly NgHierarchy Null = CreateNull();
+
+        private static NgHierarchy CreateNull()
+        {
+            return new NgHierarchy
+            {
+                Controllers = new Lazy<IReadOnlyList<NgController>>(() => new ReadOnlyCollection<NgController>(new NgController[0])),
+                Directives = new Lazy<IReadOnlyList<NgDirective>>(() => new ReadOnlyCollection<NgDirective>(new NgDirective[0])),
+            };
+        }
+
         public NgHierarchy()
         {
         }

@@ -25,7 +25,7 @@
             }
             else
             {
-                return null;
+                return NgHierarchy.Null;
             }
         }
 

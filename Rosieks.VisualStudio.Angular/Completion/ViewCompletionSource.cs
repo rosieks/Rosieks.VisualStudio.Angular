@@ -46,31 +46,28 @@
             }
 
             var callingFilename = this.textBuffer.GetFileName();
-            var appHierarchy = NgHierarchyFactory.Find(callingFilename);
-
-            IEnumerable<Completion> results = null;
-            if (String.IsNullOrWhiteSpace(info.Item1))
+            var ngHierarchy = NgHierarchyFactory.Find(callingFilename);
+            if (ngHierarchy != NgHierarchy.Null)
             {
-                results = GetRootCompletions(appHierarchy);
-            }
-            else
-            {
-                results = GetRelativeCompletions(appHierarchy, info.Item1);
-                //// Show completions for ../../
-                //if (parentTraversalRegex.IsMatch(info.Item1))
-                //{
-                //    results = new[] { parentFolder }.Concat(results);
-                //}
-            }
+                IEnumerable<Completion> results = null;
+                if (String.IsNullOrWhiteSpace(info.Item1))
+                {
+                    results = GetRootCompletions(ngHierarchy);
+                }
+                else
+                {
+                    results = GetRelativeCompletions(ngHierarchy, info.Item1);
+                }
 
-            var trackingSpan = this.textBuffer.CurrentSnapshot.CreateTrackingSpan(info.Item2.Start + line.Start, info.Item2.Length, SpanTrackingMode.EdgeInclusive);
-            completionSets.Add(new CompletionSet(
-                "Angular views",
-                "Angular views",
-                trackingSpan,
-                results,
-                null
-            ));
+                var trackingSpan = this.textBuffer.CurrentSnapshot.CreateTrackingSpan(info.Item2.Start + line.Start, info.Item2.Length, SpanTrackingMode.EdgeInclusive);
+                completionSets.Add(new CompletionSet(
+                    "Angular views",
+                    "Angular views",
+                    trackingSpan,
+                    results,
+                    null
+                ));
+            }
         }
 
         private IEnumerable<Completion> GetRelativeCompletions(NgHierarchy appHierarchy, string item1)
