@@ -73,10 +73,13 @@
     <Compile Include="Commands\GoToCodeCmd.cs" />
     <Compile Include="Commands\GoToViewCmd.cs" />
     <Compile Include="Commands\TextViewCreationListener.cs" />
+    <Compile Include="Completion\StateCompletionSourceProvider.cs" />
+    <Compile Include="Completion\StateCompletionSource.cs" />
     <Compile Include="Completion\DirectiveAttributeCompletion.cs" />
     <Compile Include="Completion\DirectiveElementCompletion.cs" />
     <Compile Include="Completion\JavaScriptIntellisenseController.cs" />
     <Compile Include="Completion\ControllerCompletionSource.cs" />
+    <Compile Include="Completion\UISRefCompletion.cs" />
     <Compile Include="Completion\ViewCompletionSource.cs" />
     <Compile Include="Completion\ControllerCompletionSourceProvider.cs" />
     <Compile Include="Completion\ViewCompletionSourceProvider.cs" />
@@ -90,6 +93,7 @@
     <Compile Include="Services\NgDirective.cs" />
     <Compile Include="Services\NgHierarchy.cs" />
     <Compile Include="Services\NgHierarchyFactory.cs" />
+    <Compile Include="Services\NgState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -257,6 +261,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Link.png" />
     <Resource Include="Resources\HtmlElement.png" />
     <Resource Include="Resources\GoToViewCmd.png" />
     <Resource Include="Resources\GoToCodeCmd.png" />

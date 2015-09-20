@@ -21,12 +21,32 @@
                     RootPath = rootPath,
                     Controllers = new Lazy<IReadOnlyList<NgController>>(() => FindControllers(rootPath)),
                     Directives = new Lazy<IReadOnlyList<NgDirective>>(() => FindDirectives(rootPath)),
+                    States = new Lazy<IReadOnlyList<NgState>>(() => FindStates(rootPath)),
                 };
             }
             else
             {
                 return NgHierarchy.Null;
             }
+        }
+
+        private static IReadOnlyList<NgState> FindStates(string rootPath)
+        {
+            return new ReadOnlyCollection<NgState>(
+                Directory
+                    .EnumerateFiles(rootPath, "*.js", SearchOption.AllDirectories)
+                    .SelectMany(FindStatesInFile)
+                    .ToArray());
+        }
+
+        private static IEnumerable<NgState> FindStatesInFile(string file)
+        {
+            var content = File.ReadAllText(file);
+            var regex = new Regex(@"\.state\(\s*(?>\'|\"")([^\'\""]+)");
+            return regex.Matches(content).Cast<Match>().Select(x => new NgState
+            {
+                Name = x.Groups[1].Value,
+            });
         }
 
         private static IReadOnlyList<NgDirective> FindDirectives(string rootPath)
