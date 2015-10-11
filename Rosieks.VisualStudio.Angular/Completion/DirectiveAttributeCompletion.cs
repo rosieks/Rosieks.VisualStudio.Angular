@@ -12,12 +12,16 @@
     using Microsoft.Web.Editor.EditorHelpers;
     using Microsoft.Web.Editor.Imaging;
     using Services;
+    using System.ComponentModel.Composition;
 
     [HtmlCompletionProvider(CompletionTypes.Attributes, "*")]
     [ContentType(HtmlContentTypeDefinition.HtmlContentType)]
-    public class DirectiveAttributeCompletion : IHtmlCompletionListProvider
+    internal class DirectiveAttributeCompletion : IHtmlCompletionListProvider
     {
         private static readonly ImageSource AttributeIcon = GlyphService.GetGlyph(StandardGlyphGroup.GlyphGroupVariable, StandardGlyphItem.GlyphItemPublic);
+
+        [Import]
+        public INgHierarchyProvider HierarchyProvider { get; set; }
 
         public string CompletionType
         {
@@ -30,7 +34,7 @@
         public IList<HtmlCompletion> GetEntries(HtmlCompletionContext context)
         {
             string fileName = context.Document.TextBuffer.GetFileName();
-            var ngHierarchy = NgHierarchyFactory.Find(fileName);
+            var ngHierarchy = this.HierarchyProvider.Get(fileName);
             var completions = new List<HtmlCompletion>();
 
             AddDirectives(context, ngHierarchy, completions);

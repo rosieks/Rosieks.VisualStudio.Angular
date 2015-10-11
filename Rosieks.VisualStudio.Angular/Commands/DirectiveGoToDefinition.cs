@@ -21,16 +21,18 @@ namespace Rosieks.VisualStudio.Angular.Commands
     {
         private readonly HtmlEditorTree tree;
         private readonly DTE dte;
+        private readonly INgHierarchyProvider ngHierarchyProvider;
 
         private NgDirective directive;
 
-        public DirectiveGoToDefinition(IVsTextView adapter, IWpfTextView textView, DTE dte)
+        public DirectiveGoToDefinition(IVsTextView adapter, IWpfTextView textView, DTE dte, INgHierarchyProvider ngHierarchyProvider)
             : base(adapter, textView, VSConstants.VSStd97CmdID.GotoDefn)
         {
             HtmlEditorDocument document = HtmlEditorDocument.TryFromTextView(textView);
 
             this.tree = document == null ? null : document.HtmlEditorTree;
             this.dte = dte;
+            this.ngHierarchyProvider = ngHierarchyProvider;
         }
 
         protected override bool Execute(VSConstants.VSStd97CmdID commandId, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
@@ -69,7 +71,7 @@ namespace Rosieks.VisualStudio.Angular.Commands
             }
 
             var currentDocumentPath = ServiceProvider.GlobalProvider.GetCurrentDocumentPath();
-            var ngHierarchy = NgHierarchyFactory.Find(currentDocumentPath);
+            var ngHierarchy = this.ngHierarchyProvider.Get(currentDocumentPath);
             directive = ngHierarchy.Directives.Value.FirstOrDefault(x => x.DashedName == element.Name || (attr != null && x.DashedName == attr.Name));
             return directive != null;
         }

@@ -17,10 +17,12 @@
         private static readonly ImageSource LinkIcon = BitmapFrame.Create(new Uri("pack://application:,,,/Rosieks.VisualStudio.Angular;component/Resources/Link.png", UriKind.RelativeOrAbsolute));
 
         private ITextBuffer textBuffer;
+        private readonly INgHierarchyProvider ngHierarchyProvider;
 
-        public StateCompletionSource(ITextBuffer textBuffer)
+        public StateCompletionSource(ITextBuffer textBuffer, INgHierarchyProvider ngHierarchyProvider)
         {
             this.textBuffer = textBuffer;
+            this.ngHierarchyProvider = ngHierarchyProvider;
         }
 
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
@@ -42,7 +44,7 @@
             }
 
             var callingFilename = this.textBuffer.GetFileName();
-            var appHierarchy = NgHierarchyFactory.Find(callingFilename);
+            var appHierarchy = this.ngHierarchyProvider.Get(callingFilename);
 
             IEnumerable<Completion> results = null;
             results = this.GetCompletions(appHierarchy);

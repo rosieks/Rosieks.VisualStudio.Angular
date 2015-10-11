@@ -11,12 +11,16 @@
     using System.Linq;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
+    using System.ComponentModel.Composition;
 
     [HtmlCompletionProvider(CompletionTypes.Values, "a", "ui-sref")]
     [ContentType(HtmlContentTypeDefinition.HtmlContentType)]
-    public class UISRefCompletion : IHtmlCompletionListProvider
+    internal class UISRefCompletion : IHtmlCompletionListProvider
     {
         private static readonly ImageSource LinkIcon = BitmapFrame.Create(new Uri("pack://application:,,,/Rosieks.VisualStudio.Angular;component/Resources/Link.png", UriKind.RelativeOrAbsolute));
+
+        [Import]
+        public INgHierarchyProvider HierarchyProvider { get; set; }
 
         public string CompletionType
         {
@@ -36,7 +40,7 @@
             else
             {
                 string fileName = context.Document.TextBuffer.GetFileName();
-                var ngHierarchy = NgHierarchyFactory.Find(fileName);
+                var ngHierarchy = this.HierarchyProvider.Get(fileName);
                 return ngHierarchy.States
                     .Value
                     .Select(x => new HtmlCompletion(

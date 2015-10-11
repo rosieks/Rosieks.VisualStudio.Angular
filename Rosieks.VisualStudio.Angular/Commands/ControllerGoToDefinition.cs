@@ -16,12 +16,14 @@
         private readonly DTE dte;
         private readonly IVsTextView adapter;
         private readonly IStandardClassificationService standardClassifications;
+        private readonly INgHierarchyProvider ngHierarchyProvider;
 
-        public ControllerGoToDefinition(IVsTextView adapter, IWpfTextView textView, DTE dte, IStandardClassificationService standardClassifications) : base(adapter, textView, VSConstants.VSStd97CmdID.GotoDefn)
+        public ControllerGoToDefinition(IVsTextView adapter, IWpfTextView textView, DTE dte, IStandardClassificationService standardClassifications, INgHierarchyProvider ngHierarchyProvider) : base(adapter, textView, VSConstants.VSStd97CmdID.GotoDefn)
         {
             this.adapter = adapter;
             this.dte = dte;
             this.standardClassifications = standardClassifications;
+            this.ngHierarchyProvider = ngHierarchyProvider;
         }
 
         protected override bool IsEnabled()
@@ -35,7 +37,7 @@
             if (!string.IsNullOrEmpty(controllerName))
             {
                 var currentDocumentPath = ServiceProvider.GlobalProvider.GetCurrentDocumentPath();
-                var ngHierarchy = NgHierarchyFactory.Find(currentDocumentPath);
+                var ngHierarchy = this.ngHierarchyProvider.Get(currentDocumentPath);
                 var controllerMetadata = ngHierarchy.Controllers.Value.FirstOrDefault(x => x.Name == controllerName);
                 if (controllerMetadata != null)
                 {

@@ -21,10 +21,12 @@
         private static readonly Completion parentFolder = new Completion("../", "../", "Prefix to access files in the parent directory", folderIcon, "Folder");
 
         private ITextBuffer textBuffer;
+        private readonly INgHierarchyProvider ngHierarchyProvider;
 
-        public ViewCompletionSource(ITextBuffer textBuffer)
+        public ViewCompletionSource(ITextBuffer textBuffer, INgHierarchyProvider ngHierarchyProvider)
         {
             this.textBuffer = textBuffer;
+            this.ngHierarchyProvider = ngHierarchyProvider;
         }
 
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
@@ -46,7 +48,7 @@
             }
 
             var callingFilename = this.textBuffer.GetFileName();
-            var ngHierarchy = NgHierarchyFactory.Find(callingFilename);
+            var ngHierarchy = this.ngHierarchyProvider.Get(callingFilename);
             if (ngHierarchy != NgHierarchy.Null)
             {
                 IEnumerable<Completion> results = null;

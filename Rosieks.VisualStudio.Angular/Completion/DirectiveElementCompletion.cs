@@ -11,12 +11,16 @@
     using Microsoft.Web.Core.ContentTypes;
     using Rosieks.VisualStudio.Angular.Extensions;
     using Rosieks.VisualStudio.Angular.Services;
+    using System.ComponentModel.Composition;
 
     [HtmlCompletionProvider(CompletionTypes.Children, "*")]
     [ContentType(HtmlContentTypeDefinition.HtmlContentType)]
     public class DirectiveElementCompletion : IHtmlCompletionListProvider
     {
         private static readonly ImageSource ElementIcon = BitmapFrame.Create(new Uri("pack://application:,,,/Rosieks.VisualStudio.Angular;component/Resources/HtmlElement.png", UriKind.RelativeOrAbsolute));
+
+        [Import]
+        internal INgHierarchyProvider HierarchyProvider { get; set; }
 
         public string CompletionType
         {
@@ -29,7 +33,7 @@
         public IList<HtmlCompletion> GetEntries(HtmlCompletionContext context)
         {
             string fileName = context.Document.TextBuffer.GetFileName();
-            var ngHierarchy = NgHierarchyFactory.Find(fileName);
+            var ngHierarchy = this.HierarchyProvider.Get(fileName);
 
             return ngHierarchy.Directives.Value
                 .Where(d => d.Restrict.HasFlag(NgDirectiveRestrict.Element))

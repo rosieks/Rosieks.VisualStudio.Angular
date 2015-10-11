@@ -84,15 +84,21 @@
     <Compile Include="Completion\ControllerCompletionSourceProvider.cs" />
     <Compile Include="Completion\ViewCompletionSourceProvider.cs" />
     <Compile Include="Extensions\DTEExtensions.cs" />
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\PackageExtensions.cs" />
     <Compile Include="Extensions\WpfTextViewExtensions.cs" />
     <Compile Include="Extensions\TextBufferExtensions.cs" />
     <Compile Include="Extensions\TextViewExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IHierarchyElementsProvider.cs" />
+    <Compile Include="Services\INgHierarchyProvider.cs" />
+    <Compile Include="Services\JavaScript\JavaScriptControllersProvider.cs" />
+    <Compile Include="Services\JavaScript\JavaScriptDirectivesProvider.cs" />
+    <Compile Include="Services\JavaScript\JavaScriptStatesProvider.cs" />
     <Compile Include="Services\NgController.cs" />
     <Compile Include="Services\NgDirective.cs" />
     <Compile Include="Services\NgHierarchy.cs" />
-    <Compile Include="Services\NgHierarchyFactory.cs" />
+    <Compile Include="Services\NgHierarchyProvider.cs" />
     <Compile Include="Services\NgState.cs" />
   </ItemGroup>
   <ItemGroup>
