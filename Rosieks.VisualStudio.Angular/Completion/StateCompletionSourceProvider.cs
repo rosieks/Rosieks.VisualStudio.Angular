@@ -9,7 +9,8 @@
     [Export(typeof(ICompletionSourceProvider))] 
  	[Order(Before = "High")] 
  	[ContentType("JavaScript")]
- 	[Name("UIRouterStateCompletion")]
+    [ContentType("TypeScript")]
+    [Name("UIRouterStateCompletion")]
     internal class StateCompletionSourceProvider : ICompletionSourceProvider
     {
         [Import]

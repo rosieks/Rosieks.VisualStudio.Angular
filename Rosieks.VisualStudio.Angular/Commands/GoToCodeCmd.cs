@@ -75,16 +75,29 @@
                 hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_ExtSelectedItem, out value);
                 string path;
                 hierarchy.GetCanonicalName(projectItemId, out path);
-                string viewPath = path.Contains(".directive.") ? path.Replace(".html", ".js") : path.Replace(".html", ".controller.js");
-                if (File.Exists(viewPath))
+                string codePath = this.GetCodePath(path);
+                if (File.Exists(codePath))
                 {
-                    this.dte.OpenFileInPreviewTab(viewPath);
+                    this.dte.OpenFileInPreviewTab(codePath);
                 }
                 else
                 {
-                    string fileName = Path.GetFileName(viewPath);
+                    string fileName = Path.GetFileName(codePath);
                     this.dte.StatusBar.Text = $"Cannot find file '{fileName}'";
                 }
+            }
+        }
+
+        private string GetCodePath(string path)
+        {
+            var codePath = path.Contains(".directive.") ? path.Replace(".html", ".ts") : path.Replace(".html", ".controller.ts");
+            if (File.Exists(codePath))
+            {
+                return codePath;
+            }
+            else
+            {
+                return codePath.Replace(".ts", ".js");
             }
         }
 

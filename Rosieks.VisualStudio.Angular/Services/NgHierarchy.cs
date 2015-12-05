@@ -12,9 +12,9 @@
         {
             return new NgHierarchy
             {
-                Controllers = new Lazy<IReadOnlyList<NgController>>(() => new ReadOnlyCollection<NgController>(new NgController[0])),
-                Directives = new Lazy<IReadOnlyList<NgDirective>>(() => new ReadOnlyCollection<NgDirective>(new NgDirective[0])),
-                States = new Lazy<IReadOnlyList<NgState>>(() => new ReadOnlyCollection<NgState>(new NgState[0])),
+                Controllers = new Lazy<IReadOnlyList<NgController>>(() => new NgController[0]),
+                Directives = new Lazy<IReadOnlyList<NgDirective>>(() => new NgDirective[0]),
+                States = new Lazy<IReadOnlyList<NgState>>(() => new NgState[0]),
             };
         }
 

@@ -75,7 +75,7 @@
                 hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_ExtSelectedItem, out value);
                 string path;
                 hierarchy.GetCanonicalName(projectItemId, out path);
-                string viewPath = path.Replace("controller.", "").Replace(".js", ".html");
+                string viewPath = path.Replace("controller.", "").Replace(".js", ".html").Replace(".ts", ".html");
                 if (File.Exists(viewPath))
                 {
                     this.dte.OpenFileInPreviewTab(viewPath);
@@ -109,7 +109,7 @@
             {
                 object value;
                 hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_Name, out value);
-                return value != null && value.ToString().EndsWith(".js");
+                return value != null && (value.ToString().EndsWith(".js") || value.ToString().EndsWith(".ts"));
             }
             else
             {

@@ -9,6 +9,8 @@
     [Export(typeof(ICompletionSourceProvider))] 
  	[Order(Before = "High")] 
  	[ContentType("JavaScript")]
+    [ContentType("TypeScript")]
+    [ContentType("text")]
  	[Name("AngularControllerCompletion")]
     internal class ControllerCompletionSourceProvider : ICompletionSourceProvider
     {

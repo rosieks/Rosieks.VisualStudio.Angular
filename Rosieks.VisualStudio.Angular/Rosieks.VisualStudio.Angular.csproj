@@ -73,6 +73,7 @@
     <Compile Include="Commands\GoToCodeCmd.cs" />
     <Compile Include="Commands\GoToViewCmd.cs" />
     <Compile Include="Commands\TextViewCreationListener.cs" />
+    <Compile Include="Completion\TypeScriptIntellisenseController.cs" />
     <Compile Include="Completion\StateCompletionSourceProvider.cs" />
     <Compile Include="Completion\StateCompletionSource.cs" />
     <Compile Include="Completion\DirectiveAttributeCompletion.cs" />
@@ -100,6 +101,9 @@
     <Compile Include="Services\NgHierarchy.cs" />
     <Compile Include="Services\NgHierarchyProvider.cs" />
     <Compile Include="Services\NgState.cs" />
+    <Compile Include="Services\TypeScript\TypeScriptStatesProvider.cs" />
+    <Compile Include="Services\TypeScript\TypeScriptControllersProvider.cs" />
+    <Compile Include="Services\TypeScript\TypeScriptDirectivesProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Key.snk" />
@@ -122,6 +126,9 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="Microsoft.Build.Framework" />
+    <Reference Include="Microsoft.CodeAnalysis.TypeScript.EditorFeatures">
+      <HintPath>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TypeScript\Microsoft.CodeAnalysis.TypeScript.EditorFeatures.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Html.Core, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -294,6 +301,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="'$(VSToolsPath)' != ''" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

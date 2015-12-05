@@ -9,6 +9,7 @@
     [Export(typeof(ICompletionSourceProvider))] 
  	[Order(Before = "High")] 
  	[ContentType("JavaScript")]
+    [ContentType("TypeScript")]
  	[Name("AngularViewCompletion")]
     internal class ViewCompletionSourceProvider : ICompletionSourceProvider
     {

@@ -28,7 +28,7 @@
 
         protected override bool IsEnabled()
         {
-            return this.dte.ActiveDocument.Name.EndsWith(".js");
+            return this.dte.ActiveDocument.Name.EndsWith(".js") || this.dte.ActiveDocument.Name.EndsWith(".ts");
         }
 
         protected override bool Execute(VSConstants.VSStd97CmdID commandId, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
