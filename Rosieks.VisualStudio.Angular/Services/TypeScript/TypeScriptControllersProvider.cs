@@ -26,7 +26,7 @@ namespace Rosieks.VisualStudio.Angular.Services.TypeScript
         private static IEnumerable<NgController> FindControllersInFile(string file)
         {
             var content = File.ReadAllText(file);
-            var regex = new Regex(@"class\s+(\w[\w\d]+)(Controller|Ctrl)");
+            var regex = new Regex(@"\.controller\(\s*(?>\'|\"")([^\'\""]+)");
             return regex.Matches(content).Cast<Match>().Select(x => new NgController
             {
                 Name = x.Groups[1].Value,

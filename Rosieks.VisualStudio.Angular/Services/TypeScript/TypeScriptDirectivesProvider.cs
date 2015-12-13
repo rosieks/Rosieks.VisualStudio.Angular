@@ -29,7 +29,7 @@ namespace Rosieks.VisualStudio.Angular.Services.TypeScript
         private static IEnumerable<NgDirective> FindDirectiveInFile(string file)
         {
             var content = File.ReadAllText(file);
-            var regex = new Regex(@"export\s+function\s+(\w[\w\d]+)\s*\(\)\s*\:\s*ng\.IDirective");
+            var regex = new Regex(@"\.directive\(\s*(?>\'|\"")([^\'\""]+)");
             return regex.Matches(content).Cast<Match>().Select(x => new NgDirective
             {
                 Name = x.Groups[1].Value,
