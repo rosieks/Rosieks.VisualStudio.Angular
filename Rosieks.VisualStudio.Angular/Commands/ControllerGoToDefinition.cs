@@ -33,7 +33,7 @@
 
         protected override bool Execute(VSConstants.VSStd97CmdID commandId, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
-            string controllerName = this.TextView.GetJavaScriptStringValue(this.standardClassifications);
+            string controllerName = this.GetStringValue();
             if (!string.IsNullOrEmpty(controllerName))
             {
                 var currentDocumentPath = ServiceProvider.GlobalProvider.GetCurrentDocumentPath();
@@ -55,6 +55,22 @@
             else
             {
                 return false;
+            }
+        }
+
+        private string GetStringValue()
+        {
+            if (this.dte.ActiveDocument.Name.EndsWith(".js"))
+            {
+                return this.TextView.GetJavaScriptStringValue(this.standardClassifications);
+            }
+            else if (this.dte.ActiveDocument.Name.EndsWith(".ts"))
+            {
+                return this.TextView.GetTypeScriptStringValue();
+            }
+            else
+            {
+                return null;
             }
         }
     }
