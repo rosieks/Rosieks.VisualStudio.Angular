@@ -22,6 +22,7 @@ namespace Rosieks.VisualStudio.Angular.Services.TypeScript
         {
             return Directory
                 .EnumerateFiles(rootPath, "*.ts", SearchOption.AllDirectories)
+                .IsValidPath()
                 .SelectMany(FindDirectiveInFile)
                 .ToReadOnlyList();
         }

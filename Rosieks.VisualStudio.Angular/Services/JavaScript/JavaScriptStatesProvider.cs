@@ -19,6 +19,7 @@ namespace Rosieks.VisualStudio.Angular.Services.JavaScript
         {
             return Directory
                 .EnumerateFiles(rootPath, "*.js", SearchOption.AllDirectories)
+                .IsValidPath()
                 .SelectMany(FindStatesInFile)
                 .ToReadOnlyList();
         }
