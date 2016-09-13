@@ -74,48 +74,60 @@
 
         private IEnumerable<Completion> GetRelativeCompletions(NgHierarchy appHierarchy, string item1)
         {
-            var views = Directory
-                .EnumerateFiles(appHierarchy.RootPath + item1, "*.html", SearchOption.TopDirectoryOnly)
-                .Select(p => new Completion(
-                    p.Substring(appHierarchy.RootPath.Length + item1.Length),
-                    p.Substring(appHierarchy.RootPath.Length + item1.Length),
-                    "",
-                    viewIcon,
-                    "View"));
+            var dir = new DirectoryInfo(appHierarchy.RootPath + item1);
+            if (dir.Exists)
+            {
+                var views = dir.EnumerateFiles("*.html", SearchOption.TopDirectoryOnly)
+                    .Select(p => new Completion(
+                        p.Name,
+                        p.Name,
+                        "",
+                        viewIcon,
+                        "View"));
 
-            var directories = Directory
-                .EnumerateDirectories(appHierarchy.RootPath + item1)
-                .Select(p => new Completion(
-                    p.Substring(appHierarchy.RootPath.Length + item1.Length),
-                    p.Substring(appHierarchy.RootPath.Length + item1.Length) + "/",
-                    "",
-                    folderIcon,
-                    "Folder"));
+                var directories = dir.EnumerateDirectories()
+                    .Select(p => new Completion(
+                        p.Name,
+                        p.Name + "/",
+                        "",
+                        folderIcon,
+                        "Folder"));
 
-            return directories.Concat(views);
+                return directories.Concat(views);
+            }
+            else
+            {
+                return Enumerable.Empty<Completion>();
+            }
         }
 
         private IEnumerable<Completion> GetRootCompletions(NgHierarchy appHierarchy)
         {
-            var views = Directory
-                .EnumerateFiles(appHierarchy.RootPath, "*.html", SearchOption.TopDirectoryOnly)
-                .Select(p => new Completion(
-                    p.Substring(appHierarchy.RootPath.Length),
-                    p.Substring(appHierarchy.RootPath.Length),
-                    "",
-                    viewIcon,
-                    "View"));
+            var dir = new DirectoryInfo(appHierarchy.RootPath);
+            if (dir.Exists)
+            {
+                var views = dir.EnumerateFiles("*.html", SearchOption.TopDirectoryOnly)
+                    .Select(p => new Completion(
+                        p.Name,
+                        p.Name,
+                        "",
+                        viewIcon,
+                        "View"));
 
-            var directories = Directory
-                .EnumerateDirectories(appHierarchy.RootPath)
-                .Select(p => new Completion(
-                    p.Substring(appHierarchy.RootPath.Length),
-                    p.Substring(appHierarchy.RootPath.Length) + "/",
-                    "",
-                    folderIcon,
-                    "Folder"));
+                var directories = dir.EnumerateDirectories()
+                    .Select(p => new Completion(
+                        p.Name,
+                        p.Name + "/",
+                        "",
+                        folderIcon,
+                        "Folder"));
 
-            return directories.Concat(views);
+                return directories.Concat(views);
+            }
+            else
+            {
+                return Enumerable.Empty<Completion>();
+            }
         }
 
         public void Dispose()
