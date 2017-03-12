@@ -35,6 +35,9 @@ namespace Rosieks.VisualStudio.Angular.Completion
         IStandardClassificationService _standardClassifications = null;
 
         [Import]
+        IClassifierAggregatorService _classifierAggregatorService = null;
+
+        [Import]
         internal IVsEditorAdaptersFactoryService EditorAdaptersFactoryService { get; set; }
 
         public async void SubjectBuffersConnected(IWpfTextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers)
@@ -46,7 +49,7 @@ namespace Rosieks.VisualStudio.Angular.Completion
                 return;
 
             var adapter = EditorAdaptersFactoryService.GetViewAdapter(textView);
-            var filter = textView.Properties.GetOrCreateSingletonProperty<TsCommandFilter>("TsCommandFilter", () => new TsCommandFilter(textView, CompletionBroker, _standardClassifications));
+            var filter = textView.Properties.GetOrCreateSingletonProperty<TsCommandFilter>("TsCommandFilter", () => new TsCommandFilter(textView, CompletionBroker, _standardClassifications, _classifierAggregatorService));
 
             int tries = 0;
 
@@ -94,8 +97,8 @@ namespace Rosieks.VisualStudio.Angular.Completion
     internal sealed class TsCommandFilter : IOleCommandTarget
     {
         private readonly IStandardClassificationService _standardClassifications;
+        private readonly IClassifier _classifier;
         private Intel.ICompletionSession _currentSession;
-        static readonly Type tsTaggerType = Type.GetType("Microsoft.CodeAnalysis.Editor.TypeScript.Features.Classifier.LexicalClassificationTaggerProvider+Tagger, Microsoft.CodeAnalysis.TypeScript.EditorFeatures");
 
         public IWpfTextView TextView { get; private set; }
         public Intel.ICompletionBroker Broker { get; private set; }
@@ -106,31 +109,19 @@ namespace Rosieks.VisualStudio.Angular.Completion
             return (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);
         }
 
-        public TsCommandFilter(IWpfTextView textView, Intel.ICompletionBroker CompletionBroker, IStandardClassificationService standardClassifications)
+        public TsCommandFilter(IWpfTextView textView, Intel.ICompletionBroker CompletionBroker, IStandardClassificationService standardClassifications, IClassifierAggregatorService  classifierAggreagatorService)
         {
             TextView = textView;
             Broker = CompletionBroker;
             _standardClassifications = standardClassifications;
+            _classifier = classifierAggreagatorService.GetClassifier(textView.TextBuffer);
         }
 
         IEnumerable<IClassificationType> GetCaretClassifications()
         {
-            var buffers = TextView.BufferGraph.GetTextBuffers(b => b.ContentType.IsOfType("TypeScript") && TextView.GetSelection("TypeScript").HasValue && TextView.GetSelection("TypeScript").Value.Snapshot.TextBuffer == b);
-
-            if (!buffers.Any())
-                return Enumerable.Empty<IClassificationType>();
-
-            var tagger = buffers.First().Properties.GetProperty<ITagger<IClassificationTag>>(tsTaggerType);
-
-            try
-            {
-                return tagger.GetTags(new NormalizedSnapshotSpanCollection(new SnapshotSpan(TextView.Caret.Position.BufferPosition, 0)))
-                        .Select(s => s.Tag.ClassificationType);
-            }
-            catch
-            {
-                return Enumerable.Empty<IClassificationType>();
-            }
+            var span = new SnapshotSpan(TextView.TextBuffer.CurrentSnapshot, TextView.Caret.Position.BufferPosition.Position, 1);
+            var cspans = _classifier.GetClassificationSpans(span);
+            return cspans.Select(x => x.ClassificationType);
         }
 
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
@@ -141,7 +132,7 @@ namespace Rosieks.VisualStudio.Angular.Completion
 
             // This filter should only have do anything inside a string literal, or when opening a string literal.
             var classifications = GetCaretClassifications();
-            bool isInString = classifications.Any(x => x.Classification == "TypeScriptLexicalStringLiteral");
+            bool isInString = classifications.Contains(_standardClassifications.StringLiteral);
             bool isInComment = classifications.Contains(_standardClassifications.Comment);
 
             var command = (VSConstants.VSStd2KCmdID)nCmdID;
