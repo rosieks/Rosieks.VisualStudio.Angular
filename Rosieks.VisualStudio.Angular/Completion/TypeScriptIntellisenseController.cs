@@ -119,7 +119,18 @@ namespace Rosieks.VisualStudio.Angular.Completion
 
         IEnumerable<IClassificationType> GetCaretClassifications()
         {
-            var span = new SnapshotSpan(TextView.TextBuffer.CurrentSnapshot, TextView.Caret.Position.BufferPosition.Position, 1);
+            if (TextView.TextBuffer.CurrentSnapshot.Length <= 1)
+            {
+                return Enumerable.Empty<IClassificationType>();
+            }
+
+            int position = TextView.Caret.Position.BufferPosition;
+            if (position == TextView.TextBuffer.CurrentSnapshot.Length)
+            {
+                position = position - 1;
+            }
+
+            var span = new SnapshotSpan(TextView.TextBuffer.CurrentSnapshot, position, 1);
             var cspans = _classifier.GetClassificationSpans(span);
             return cspans.Select(x => x.ClassificationType);
         }
