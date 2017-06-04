@@ -4,6 +4,7 @@
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Language.StandardClassification;
     using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Text.Classification;
     using Microsoft.VisualStudio.Text.Editor;
     using Microsoft.VisualStudio.TextManager.Interop;
     using Rosieks.VisualStudio.Angular.Extensions;
@@ -17,12 +18,14 @@
         private readonly IVsTextView adapter;
         private readonly IStandardClassificationService standardClassifications;
         private readonly INgHierarchyProvider ngHierarchyProvider;
+        private readonly IClassifier classifier;
 
-        public ControllerGoToDefinition(IVsTextView adapter, IWpfTextView textView, DTE dte, IStandardClassificationService standardClassifications, INgHierarchyProvider ngHierarchyProvider) : base(adapter, textView, VSConstants.VSStd97CmdID.GotoDefn)
+        public ControllerGoToDefinition(IVsTextView adapter, IWpfTextView textView, DTE dte, IStandardClassificationService standardClassifications, IClassifierAggregatorService classifierAggreagatorService, INgHierarchyProvider ngHierarchyProvider) : base(adapter, textView, VSConstants.VSStd97CmdID.GotoDefn)
         {
             this.adapter = adapter;
             this.dte = dte;
             this.standardClassifications = standardClassifications;
+            this.classifier = classifierAggreagatorService.GetClassifier(textView.TextBuffer);
             this.ngHierarchyProvider = ngHierarchyProvider;
         }
 
@@ -66,7 +69,7 @@
             }
             else if (this.dte.ActiveDocument.Name.EndsWith(".ts"))
             {
-                return this.TextView.GetTypeScriptStringValue();
+                return this.TextView.GetTypeScriptStringValue(this.classifier, this.standardClassifications);
             }
             else
             {

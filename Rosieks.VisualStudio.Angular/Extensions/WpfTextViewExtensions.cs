@@ -3,6 +3,7 @@
     using Microsoft.VisualStudio.JSLS;
     using Microsoft.VisualStudio.Language.StandardClassification;
     using Microsoft.VisualStudio.Text;
+    using Microsoft.VisualStudio.Text.Classification;
     using Microsoft.VisualStudio.Text.Editor;
     using Microsoft.VisualStudio.Text.Tagging;
     using System;
@@ -32,7 +33,7 @@
             return text != null ? text.Substring(1, text.Length - 2) : null;
         }
 
-        public static string GetTypeScriptStringValue(this IWpfTextView textView)
+        public static string GetTypeScriptStringValue(this IWpfTextView textView, IClassifier classifier, IStandardClassificationService standardClassifications)
         {
             var buffers = textView.BufferGraph.GetTextBuffers(b => b.ContentType.IsOfType("TypeScript") && textView.GetSelection("TypeScript").HasValue && textView.GetSelection("TypeScript").Value.Snapshot.TextBuffer == b);
 
@@ -41,10 +42,16 @@
                 return null;
             }
 
-            var tagger = buffers.First().Properties.GetProperty<ITagger<IClassificationTag>>(tsTaggerType);
+            int position = textView.Caret.Position.BufferPosition;
+            if (position == textView.TextBuffer.CurrentSnapshot.Length)
+            {
+                position = position - 1;
+            }
 
-            var text = tagger.GetTags(new NormalizedSnapshotSpanCollection(new SnapshotSpan(textView.Caret.Position.BufferPosition, 0)))
-                .Where(s => s.Tag.ClassificationType.Classification == "TypeScriptLexicalStringLiteral")
+            var span = new SnapshotSpan(textView.TextBuffer.CurrentSnapshot, position, 1);
+            var cspans = classifier.GetClassificationSpans(span);
+            var text = cspans
+                .Where(s => s.ClassificationType == standardClassifications.StringLiteral)
                 .Select(s => s.Span.GetText())
                 .FirstOrDefault();
 

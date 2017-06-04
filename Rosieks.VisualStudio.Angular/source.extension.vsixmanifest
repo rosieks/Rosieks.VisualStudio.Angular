@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="Rosieks.VisualStudio.Angular.Sławomir Rosiek.7bff3813-ed73-4098-b37e-317f4435b9d1" Version="0.5.7" Language="en-US" Publisher="Sławomir Rosiek" />
+    <Identity Id="Rosieks.VisualStudio.Angular.Sławomir Rosiek.7bff3813-ed73-4098-b37e-317f4435b9d1" Version="0.5.8" Language="en-US" Publisher="Sławomir Rosiek" />
     <DisplayName>Angular Productivity Tools</DisplayName>
     <Description xml:space="preserve">A set of extensions to Visual Studio which improves developer productivity.</Description>
     <Tags>angular javascript web</Tags>
