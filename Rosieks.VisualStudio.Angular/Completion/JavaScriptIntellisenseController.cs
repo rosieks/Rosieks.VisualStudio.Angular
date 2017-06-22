@@ -119,10 +119,15 @@ namespace Rosieks.VisualStudio.Angular.Completion
             if (!buffers.Any())
                 return Enumerable.Empty<IClassificationType>();
 
-            var tagger = buffers.First().Properties.GetProperty<ITagger<ClassificationTag>>(jsTaggerType);
-
-            return tagger.GetTags(new NormalizedSnapshotSpanCollection(new SnapshotSpan(TextView.Caret.Position.BufferPosition, 0)))
-                    .Select(s => s.Tag.ClassificationType);
+            if (buffers.First().Properties.TryGetProperty<ITagger<ClassificationTag>>(jsTaggerType, out var tagger))
+            {
+                return tagger.GetTags(new NormalizedSnapshotSpanCollection(new SnapshotSpan(TextView.Caret.Position.BufferPosition, 0)))
+                        .Select(s => s.Tag.ClassificationType);
+            }
+            else
+            {
+                return Enumerable.Empty<IClassificationType>();
+            }
         }
 
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity")]
