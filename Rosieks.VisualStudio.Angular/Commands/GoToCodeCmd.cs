@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.Design;
     using System.IO;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
@@ -90,14 +91,16 @@
 
         private string GetCodePath(string path)
         {
-            var codePath = path.Contains(".directive.") ? path.Replace(".html", ".ts") : path.Replace(".html", ".controller.ts");
-            if (File.Exists(codePath))
+            var fileName = Path.GetFileNameWithoutExtension(path);
+            fileName = fileName.Contains(".directive.") ? fileName : fileName + ".controller";
+            string codePath = Path.Combine(Path.GetDirectoryName(path), fileName);
+            if (FileHelper.TryFind(codePath, AngularPackage.CodeExtensions, out codePath))
             {
                 return codePath;
             }
             else
             {
-                return codePath.Replace(".ts", ".js");
+                return null;
             }
         }
 
@@ -107,6 +110,11 @@
             bool canGoCode = this.CanGoToCode();
             menuCommand.Visible = canGoCode;
             menuCommand.Enabled = canGoCode;
+        }
+
+        private bool IsView(string path)
+        {
+            return AngularPackage.ViewExtensions.Any(viewExtension => path.EndsWith(viewExtension));
         }
 
         private bool CanGoToCode()
@@ -120,9 +128,9 @@
             IVsHierarchy hierarchy = Marshal.GetTypedObjectForIUnknown(hierarchyPtr, typeof(IVsHierarchy)) as IVsHierarchy;
             if (hierarchy != null)
             {
-                object value;
-                hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_Name, out value);
-                return value != null && value.ToString().EndsWith(".html");
+                string path;
+                hierarchy.GetCanonicalName(projectItemId, out path);
+                return path != null && IsView(path) && GetCodePath(path) != null;
             }
             else
             {

@@ -75,6 +75,7 @@
     <Compile Include="Commands\CommandTargetBase.cs" />
     <Compile Include="Commands\ControllerGoToDefinition.cs" />
     <Compile Include="Commands\DirectiveGoToDefinition.cs" />
+    <Compile Include="Extensions\FileHelper.cs" />
     <Compile Include="Commands\GoToCodeCmd.cs" />
     <Compile Include="Commands\GoToViewCmd.cs" />
     <Compile Include="Commands\TextViewCreationListener.cs" />

@@ -3,6 +3,7 @@
     using System;
     using System.ComponentModel.Design;
     using System.IO;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
@@ -75,7 +76,7 @@
                 hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_ExtSelectedItem, out value);
                 string path;
                 hierarchy.GetCanonicalName(projectItemId, out path);
-                string viewPath = path.Replace("controller.", "").Replace(".js", ".html").Replace(".ts", ".html");
+                string viewPath = this.GetViewPath(path); path.Replace("controller.", "").Replace(".js", ".html").Replace(".ts", ".html");
                 if (File.Exists(viewPath))
                 {
                     this.dte.OpenFileInPreviewTab(viewPath);
@@ -85,6 +86,21 @@
                     string fileName = Path.GetFileName(viewPath);
                     this.dte.StatusBar.Text = $"Cannot find file '{fileName}'";
                 }
+            }
+        }
+
+        private string GetViewPath(string path)
+        {
+            var fileName = Path.GetFileNameWithoutExtension(path);
+            fileName = fileName.Replace(".controller", "");
+            string viewPath = Path.Combine(Path.GetDirectoryName(path), fileName);
+            if (FileHelper.TryFind(viewPath, AngularPackage.ViewExtensions, out viewPath))
+            {
+                return viewPath;
+            }
+            else
+            {
+                return null;
             }
         }
 
@@ -107,14 +123,19 @@
             IVsHierarchy hierarchy = Marshal.GetTypedObjectForIUnknown(hierarchyPtr, typeof(IVsHierarchy)) as IVsHierarchy;
             if (hierarchy != null)
             {
-                object value;
-                hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_Name, out value);
-                return value != null && (value.ToString().EndsWith(".js") || value.ToString().EndsWith(".ts"));
+                string path;
+                hierarchy.GetCanonicalName(projectItemId, out path);
+                return path != null && IsCode(path) && GetViewPath(path) != null;
             }
             else
             {
                 return false;
             }
+        }
+
+        private bool IsCode(string path)
+        {
+            return AngularPackage.CodeExtensions.Any(codeExtension => path.EndsWith(codeExtension));
         }
     }
 }
