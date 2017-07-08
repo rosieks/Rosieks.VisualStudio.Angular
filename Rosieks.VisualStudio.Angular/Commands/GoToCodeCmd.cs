@@ -90,15 +90,29 @@
 
         private string GetCodePath(string path)
         {
-            var codePath = path.Contains(".directive.") ? path.Replace(".html", ".ts") : path.Replace(".html", ".controller.ts");
-            if (File.Exists(codePath))
-            {
-                return codePath;
+            // TODO - GET THE FILE EXTENSIONS FROM THE PATH AND USE THAT FOR THE REPLACE INSTEAD OF HARD CODING EXTENSIOSN
+            var htmlFileExtensions = new List<string>() { ".html", ".cshtml" };
+            var pathsToSearch = new List<string>();
+
+            foreach (var fileExtension in htmlFileExtensions) {
+                pathsToSearch.Add(path.Contains(".directive.") ? path.Replace(fileExtension, ".ts") : path.Replace(fileExtension, ".controller.ts"));
+                pathsToSearch.Add(path.Contains(".directive.") ? path.Replace(fileExtension, ".js") : path.Replace(fileExtension, ".controller.js")); // ALSO CHECK FOR NON TYPESCRIPT FILES
             }
-            else
-            {
-                return codePath.Replace(".ts", ".js");
+            //var codePath = path.Contains(".directive.") ? path.Replace(".html", ".ts") : path.Replace(".html", ".controller.ts");
+            foreach (var searchPath in pathsToSearch) {
+                if (File.Exists(searchPath)) {
+                    return searchPath;
+                }
             }
+
+            //if (File.Exists(codePath))
+            //{
+            //    return codePath;
+            //}
+            //else
+            //{
+            return pathsToSearch.First().Replace(".ts", ".js");
+            //}
         }
 
         private void BeforeQueryStatus(object sender, EventArgs e)
@@ -122,7 +136,7 @@
             {
                 object value;
                 hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_Name, out value);
-                return value != null && value.ToString().EndsWith(".html");
+                return value != null && (value.ToString().EndsWith(".html") || value.ToString().EndsWith(".cshtml"));
             }
             else
             {

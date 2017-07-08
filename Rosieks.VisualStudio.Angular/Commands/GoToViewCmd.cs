@@ -75,14 +75,33 @@
                 hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_ExtSelectedItem, out value);
                 string path;
                 hierarchy.GetCanonicalName(projectItemId, out path);
-                string viewPath = path.Replace("controller.", "").Replace(".js", ".html").Replace(".ts", ".html");
-                if (File.Exists(viewPath))
-                {
-                    this.dte.OpenFileInPreviewTab(viewPath);
+
+                var htmlFileExtensions = new List<string>() { ".html", ".cshtml" };
+                var pathsToSearch = new List<string>();
+
+                foreach (var fileExtension in htmlFileExtensions) {
+                    pathsToSearch.Add(path.Replace("controller.", "").Replace(".js", fileExtension).Replace(".ts", fileExtension));
                 }
-                else
-                {
-                    string fileName = Path.GetFileName(viewPath);
+
+                //string viewPath = path.Replace("controller.", "").Replace(".js", ".html").Replace(".ts", ".html");
+
+                var viewFound = false;
+
+                foreach (var searchPath in pathsToSearch) {
+                    if (File.Exists(searchPath)) {
+                        viewFound = true;
+                        this.dte.OpenFileInPreviewTab(searchPath);
+                        break;
+                    }
+                }
+
+                //if (File.Exists(viewPath))
+                //{
+                //    this.dte.OpenFileInPreviewTab(viewPath);
+                //}
+                //else
+                if (viewFound == false) {
+                    string fileName = Path.GetFileName(pathsToSearch.First());
                     this.dte.StatusBar.Text = $"Cannot find file '{fileName}'";
                 }
             }
