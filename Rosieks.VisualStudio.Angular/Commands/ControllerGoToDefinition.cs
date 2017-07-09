@@ -1,5 +1,7 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Commands
 {
+    using System;
+    using System.Linq;
     using EnvDTE;
     using Microsoft.VisualStudio;
     using Microsoft.VisualStudio.Language.StandardClassification;
@@ -9,8 +11,6 @@
     using Microsoft.VisualStudio.TextManager.Interop;
     using Rosieks.VisualStudio.Angular.Extensions;
     using Rosieks.VisualStudio.Angular.Services;
-    using System;
-    using System.Linq;
 
     internal class ControllerGoToDefinition : CommandTargetBase<VSConstants.VSStd97CmdID>
     {

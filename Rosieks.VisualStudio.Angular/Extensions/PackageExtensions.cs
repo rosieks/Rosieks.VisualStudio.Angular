@@ -1,8 +1,8 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Extensions
 {
-    using Microsoft.VisualStudio.Shell.Interop;
     using System;
     using System.Runtime.InteropServices;
+    using Microsoft.VisualStudio.Shell.Interop;
 
     internal static class PackageExtensions
     {

@@ -1,15 +1,15 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Completion
 {
-    using Extensions;
-    using Microsoft.VisualStudio.Language.Intellisense;
-    using Microsoft.VisualStudio.Text;
-    using Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
+    using Extensions;
+    using Microsoft.VisualStudio.Language.Intellisense;
+    using Microsoft.VisualStudio.Text;
+    using Services;
 
     internal class ControllerCompletionSource : ICompletionSource
     {

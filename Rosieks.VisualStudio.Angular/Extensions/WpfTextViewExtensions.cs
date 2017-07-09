@@ -1,13 +1,13 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Extensions
 {
+    using System;
+    using System.Linq;
     using Microsoft.VisualStudio.JSLS;
     using Microsoft.VisualStudio.Language.StandardClassification;
     using Microsoft.VisualStudio.Text;
     using Microsoft.VisualStudio.Text.Classification;
     using Microsoft.VisualStudio.Text.Editor;
     using Microsoft.VisualStudio.Text.Tagging;
-    using System;
-    using System.Linq;
 
     internal static class WpfTextViewExtensions
     {

@@ -1,13 +1,10 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Services
 {
-    using Extensions;
     using System;
     using System.Collections.Generic;
-    using System.Collections.ObjectModel;
     using System.ComponentModel.Composition;
-    using System.IO;
     using System.Linq;
-    using System.Text.RegularExpressions;
+    using Extensions;
 
     [Export(typeof(INgHierarchyProvider))]
     internal class NgHierarchyProvider : INgHierarchyProvider

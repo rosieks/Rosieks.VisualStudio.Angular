@@ -1,5 +1,6 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Commands
 {
+    using System.ComponentModel.Composition;
     using Microsoft.VisualStudio.Editor;
     using Microsoft.VisualStudio.Language.StandardClassification;
     using Microsoft.VisualStudio.Text.Classification;
@@ -7,7 +8,6 @@
     using Microsoft.VisualStudio.TextManager.Interop;
     using Microsoft.VisualStudio.Utilities;
     using Services;
-    using System.ComponentModel.Composition;
 
     [Export(typeof(IVsTextViewCreationListener))]
     [ContentType("text")]
