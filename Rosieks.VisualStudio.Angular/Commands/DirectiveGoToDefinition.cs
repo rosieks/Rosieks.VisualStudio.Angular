@@ -52,7 +52,7 @@ namespace Rosieks.VisualStudio.Angular.Commands
 
         protected override bool IsEnabled()
         {
-            return this.dte.ActiveDocument.Name.EndsWith(".html") && IsDirective(out this.directive);
+            return AngularPackage.ViewExtensions.Any(viewExtension => this.dte.ActiveDocument.Name.EndsWith(viewExtension)) && IsDirective(out this.directive);
         }
 
         private bool IsDirective(out NgDirective directive)

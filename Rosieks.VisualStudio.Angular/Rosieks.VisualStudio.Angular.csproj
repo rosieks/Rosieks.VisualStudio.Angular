@@ -91,6 +91,7 @@
     <Compile Include="Completion\ViewCompletionSourceProvider.cs" />
     <Compile Include="Extensions\DTEExtensions.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Extensions\FileHelper.cs" />
     <Compile Include="Extensions\PackageExtensions.cs" />
     <Compile Include="Extensions\WpfTextViewExtensions.cs" />
     <Compile Include="Extensions\TextBufferExtensions.cs" />

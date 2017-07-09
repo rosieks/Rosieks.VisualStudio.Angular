@@ -46,5 +46,8 @@
             GoToViewCmd.Initialize(this, AngularPackage.DTE);
             GoToCodeCmd.Initialize(this, AngularPackage.DTE);
         }
+    
+        public static readonly string[] CodeExtensions = new[] { ".ts", ".js" };
+        public static readonly string[] ViewExtensions = new[] { ".html", ".cshtml" };
     }
 }

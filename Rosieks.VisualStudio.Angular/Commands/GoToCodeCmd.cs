@@ -1,8 +1,11 @@
-﻿namespace Rosieks.VisualStudio.Angular.Commands
+﻿using System.Collections.Generic;
+
+namespace Rosieks.VisualStudio.Angular.Commands
 {
     using System;
     using System.ComponentModel.Design;
     using System.IO;
+    using System.Linq;
     using System.Runtime.InteropServices;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
@@ -90,14 +93,21 @@
 
         private string GetCodePath(string path)
         {
-            var codePath = path.Contains(".directive.") ? path.Replace(".html", ".ts") : path.Replace(".html", ".controller.ts");
-            if (File.Exists(codePath))
-            {
+            var directoryPath = Path.GetDirectoryName(path);
+            var fileName = Path.GetFileNameWithoutExtension(path);
+
+            var searchPaths = new List<string>();
+
+            var adjustedFileName = fileName.Contains(".directive.") ? fileName : fileName + ".controller";
+            searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), adjustedFileName));
+            searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), fileName));
+            string codePath;
+            if (FileHelper.TryFind(searchPaths.ToArray(), AngularPackage.CodeExtensions, out codePath)) {
                 return codePath;
             }
             else
             {
-                return codePath.Replace(".ts", ".js");
+                return null;
             }
         }
 
@@ -107,6 +117,13 @@
             bool canGoCode = this.CanGoToCode();
             menuCommand.Visible = canGoCode;
             menuCommand.Enabled = canGoCode;
+        }
+
+        private bool IsView(string path)
+        {
+            var result = AngularPackage.ViewExtensions.Any(viewExtension => path.EndsWith(viewExtension));
+           
+            return result;
         }
 
         private bool CanGoToCode()
@@ -120,9 +137,10 @@
             IVsHierarchy hierarchy = Marshal.GetTypedObjectForIUnknown(hierarchyPtr, typeof(IVsHierarchy)) as IVsHierarchy;
             if (hierarchy != null)
             {
-                object value;
-                hierarchy.GetProperty(projectItemId, (int)__VSHPROPID.VSHPROPID_Name, out value);
-                return value != null && value.ToString().EndsWith(".html");
+                string path;
+                hierarchy.GetCanonicalName(projectItemId, out path);
+                var result = path != null && IsView(path) && GetCodePath(path) != null;
+                return result;
             }
             else
             {
