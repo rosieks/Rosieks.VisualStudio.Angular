@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Rosieks.VisualStudio.Angular.Extensions;
-
-namespace Rosieks.VisualStudio.Angular.Services.TypeScript
+﻿namespace Rosieks.VisualStudio.Angular.Services.TypeScript
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using Rosieks.VisualStudio.Angular.Extensions;
+
     [Export(typeof(IHierarchyElementsProvider<NgDirective>))]
     class TypeScriptDirectivesProvider : IHierarchyElementsProvider<NgDirective>
     {

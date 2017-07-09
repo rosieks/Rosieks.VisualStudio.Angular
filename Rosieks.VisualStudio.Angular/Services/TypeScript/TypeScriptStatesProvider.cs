@@ -1,12 +1,12 @@
-﻿using Rosieks.VisualStudio.Angular.Extensions;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
-using System.Text.RegularExpressions;
-
-namespace Rosieks.VisualStudio.Angular.Services.TypeScript
+﻿namespace Rosieks.VisualStudio.Angular.Services.TypeScript
 {
+    using Rosieks.VisualStudio.Angular.Extensions;
+    using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.IO;
+    using System.Linq;
+    using System.Text.RegularExpressions;
+
     [Export(typeof(IHierarchyElementsProvider<NgState>))]
     class TypeScriptStatesProvider : IHierarchyElementsProvider<NgState>
     {

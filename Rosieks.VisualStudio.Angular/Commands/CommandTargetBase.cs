@@ -1,14 +1,14 @@
-﻿using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.TextManager.Interop;
-using System;
-using System.Collections.ObjectModel;
-using System.Globalization;
-using System.Windows.Threading;
-
-namespace Rosieks.VisualStudio.Angular.Commands
+﻿namespace Rosieks.VisualStudio.Angular.Commands
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Globalization;
+    using System.Windows.Threading;
+    using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.OLE.Interop;
+    using Microsoft.VisualStudio.Text.Editor;
+    using Microsoft.VisualStudio.TextManager.Interop;
+
     internal abstract class CommandTargetBase<TCommandEnum> : IOleCommandTarget where TCommandEnum : struct, IComparable
     {
         private IOleCommandTarget _nextCommandTarget;

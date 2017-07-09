@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-
-namespace Rosieks.VisualStudio.Angular.Extensions
+﻿namespace Rosieks.VisualStudio.Angular.Extensions
 {
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.IO;
+    using System.Linq;
+
     internal static class EnumerableExtensions
     {
         public static IReadOnlyList<T> ToReadOnlyList<T>(this IEnumerable<T> items)

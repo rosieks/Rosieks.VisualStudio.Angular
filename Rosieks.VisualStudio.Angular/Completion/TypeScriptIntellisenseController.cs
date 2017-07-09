@@ -1,25 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Composition;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.Editor.TypeScript;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Editor;
-using Microsoft.VisualStudio.Language.StandardClassification;
-using Microsoft.VisualStudio.OLE.Interop;
-using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.Text.Projection;
-using Microsoft.VisualStudio.Utilities;
-using Intel = Microsoft.VisualStudio.Language.Intellisense;
-
-namespace Rosieks.VisualStudio.Angular.Completion
+﻿namespace Rosieks.VisualStudio.Angular.Completion
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel.Composition;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
+    using System.Runtime.InteropServices;
+    using System.Threading.Tasks;
+    using Microsoft.CodeAnalysis.Editor.TypeScript;
+    using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Editor;
+    using Microsoft.VisualStudio.Language.StandardClassification;
+    using Microsoft.VisualStudio.OLE.Interop;
+    using Microsoft.VisualStudio.Text;
+    using Microsoft.VisualStudio.Text.Classification;
+    using Microsoft.VisualStudio.Text.Editor;
+    using Microsoft.VisualStudio.Text.Projection;
+    using Microsoft.VisualStudio.Utilities;
+    using Intel = Microsoft.VisualStudio.Language.Intellisense;
+
     [Export(typeof(IWpfTextViewConnectionListener))]
     [ContentType("typescript")]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]

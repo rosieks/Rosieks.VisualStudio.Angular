@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace Rosieks.VisualStudio.Angular.Services
+﻿namespace Rosieks.VisualStudio.Angular.Services
 {
+    using System;
+
     [Flags]
     internal enum NgDirectiveRestrict
     {

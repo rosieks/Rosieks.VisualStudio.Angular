@@ -1,22 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EnvDTE;
-using Microsoft.Html.Core.Tree.Nodes;
-using Microsoft.Html.Editor.Document;
-using Microsoft.Html.Editor.Tree;
-using Microsoft.VisualStudio;
-using Microsoft.VisualStudio.Shell;
-using Microsoft.VisualStudio.Text.Editor;
-using Microsoft.VisualStudio.TextManager.Interop;
-using Rosieks.VisualStudio.Angular.Extensions;
-using Rosieks.VisualStudio.Angular.Services;
-
-namespace Rosieks.VisualStudio.Angular.Commands
+﻿namespace Rosieks.VisualStudio.Angular.Commands
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using EnvDTE;
+    using Microsoft.Html.Core.Tree.Nodes;
+    using Microsoft.Html.Editor.Document;
+    using Microsoft.Html.Editor.Tree;
+    using Microsoft.VisualStudio;
+    using Microsoft.VisualStudio.Shell;
+    using Microsoft.VisualStudio.Text.Editor;
+    using Microsoft.VisualStudio.TextManager.Interop;
+    using Rosieks.VisualStudio.Angular.Extensions;
+    using Rosieks.VisualStudio.Angular.Services;
+
     internal class DirectiveGoToDefinition : CommandTargetBase<VSConstants.VSStd97CmdID>
     {
         private readonly HtmlEditorTree tree;
