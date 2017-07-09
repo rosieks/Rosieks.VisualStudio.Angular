@@ -1,7 +1,7 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Completion
 {
-    using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Linq;
     using System.Windows.Media;
     using Microsoft.Html.Editor.Completion;
@@ -12,7 +12,6 @@
     using Microsoft.Web.Editor.EditorHelpers;
     using Microsoft.Web.Editor.Imaging;
     using Services;
-    using System.ComponentModel.Composition;
 
     [HtmlCompletionProvider(CompletionTypes.Attributes, "*")]
     [ContentType(HtmlContentTypeDefinition.HtmlContentType)]

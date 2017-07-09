@@ -5,13 +5,13 @@
     using System.IO;
     using System.Linq;
     using System.Text.RegularExpressions;
-    using Microsoft.VisualStudio.Language.Intellisense;
-    using Microsoft.VisualStudio.Text;
-    using Extensions;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
-    using Services;
+    using Extensions;
+    using Microsoft.VisualStudio.Language.Intellisense;
+    using Microsoft.VisualStudio.Text;
     using Microsoft.Web.Editor.Imaging;
+    using Services;
 
     internal class ViewCompletionSource : ICompletionSource
     {

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
     using System.Linq;
     using System.Windows.Media;
     using System.Windows.Media.Imaging;
@@ -11,7 +12,6 @@
     using Microsoft.Web.Core.ContentTypes;
     using Rosieks.VisualStudio.Angular.Extensions;
     using Rosieks.VisualStudio.Angular.Services;
-    using System.ComponentModel.Composition;
 
     [HtmlCompletionProvider(CompletionTypes.Children, "*")]
     [ContentType(HtmlContentTypeDefinition.HtmlContentType)]

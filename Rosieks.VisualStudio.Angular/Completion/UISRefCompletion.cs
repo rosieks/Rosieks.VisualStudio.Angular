@@ -2,16 +2,16 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.Composition;
+    using System.Linq;
+    using System.Windows.Media;
+    using System.Windows.Media.Imaging;
+    using Extensions;
     using Microsoft.Html.Editor.Completion;
     using Microsoft.Html.Editor.Completion.Def;
     using Microsoft.VisualStudio.Utilities;
     using Microsoft.Web.Core.ContentTypes;
-    using Extensions;
     using Services;
-    using System.Linq;
-    using System.Windows.Media;
-    using System.Windows.Media.Imaging;
-    using System.ComponentModel.Composition;
 
     [HtmlCompletionProvider(CompletionTypes.Values, "a", "ui-sref")]
     [ContentType(HtmlContentTypeDefinition.HtmlContentType)]
