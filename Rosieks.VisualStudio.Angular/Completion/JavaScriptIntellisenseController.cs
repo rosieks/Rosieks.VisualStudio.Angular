@@ -224,21 +224,27 @@
                 case VSConstants.VSStd2KCmdID.TYPECHAR:
                     char ch = GetTypeChar(pvaIn);
                     if (ch == ':' || ch == ' ')
+                    {
                         Cancel();
+                    }
                     else if (ch == '"' || ch == '\'' || ch == '/' || ch == '.' || ch == '@' || (!char.IsPunctuation(ch) && !char.IsControl(ch)))
                     {
                         if (!closedCompletion)
                             StartSession();
                     }
                     else if (_currentSession != null)
+                    {
                         Filter();
+                    }
                     break;
                 case VSConstants.VSStd2KCmdID.DELETE:
                 case VSConstants.VSStd2KCmdID.DELETEWORDLEFT:
                 case VSConstants.VSStd2KCmdID.DELETEWORDRIGHT:
                 case VSConstants.VSStd2KCmdID.BACKSPACE:
                     if (_currentSession == null)
+                    {
                         StartSession();
+                    }
                     else
                     {
                         var p = _currentSession.GetTriggerPoint(TextView.TextBuffer.CurrentSnapshot);
@@ -246,8 +252,11 @@
                             && (p.Value.Position >= p.Value.Snapshot.Length
                              || p.Value.GetChar() != _currentSession.CompletionSets[0].Completions[0].InsertionText[0])
                             )
+                        {
                             Cancel();
+                        }
                     }
+
                     Filter();
                     break;
             }
@@ -258,7 +267,9 @@
         private bool IsValidTextBuffer()
         {
             if (TextView.TextBuffer.ContentType.IsOfType("javascript"))
+            {
                 return true;
+            }
 
             var projection = TextView.TextBuffer as IProjectionBuffer;
 
@@ -273,7 +284,9 @@
                     SnapshotPoint? point = TextView.BufferGraph.MapDownToBuffer(snapshotPoint, PointTrackingMode.Negative, buffer, PositionAffinity.Predecessor);
 
                     if (point.HasValue)
+                    {
                         return false;
+                    }
                 }
             }
 
@@ -283,7 +296,9 @@
         private void Filter()
         {
             if (_currentSession == null)
+            {
                 return;
+            }
 
             _currentSession.SelectedCompletionSet.SelectBestMatch();
             _currentSession.SelectedCompletionSet.Recalculate();
@@ -292,7 +307,9 @@
         bool Cancel()
         {
             if (_currentSession == null)
+            {
                 return false;
+            }
 
             _currentSession.Dismiss();
 
@@ -302,7 +319,9 @@
         Intel.Completion Complete(bool force, bool dontAdvance = false)
         {
             if (_currentSession == null)
+            {
                 return null;
+            }
 
             if (!_currentSession.SelectedCompletionSet.SelectionStatus.IsSelected && !force)
             {
@@ -318,17 +337,24 @@
                 _currentSession.Commit();
 
                 if (positionNullable == null)
+                {
                     return null;
+                }
+
                 var position = positionNullable.Value;
 
                 if (position.Position == TextView.TextBuffer.CurrentSnapshot.Length)
+                {
                     return completion;  // If the cursor is at the end of the document, don't choke
+                }
 
                 // If applicable, move the cursor to the end of the function call.
                 // Unless the user is in completing a deeper Node.js require path,
                 // in which case we should stay inside the string.
                 if (dontAdvance || completion.InsertionText.EndsWith("/", StringComparison.Ordinal))
+                {
                     return completion;
+                }
 
                 // If the user completed a Node require path (which won't have any
                 // quotes in the completion, move past any existing closing quote.
@@ -336,13 +362,17 @@
                 // we don't need to move 
                 if (!completion.InsertionText.EndsWith("'", StringComparison.Ordinal) && !completion.InsertionText.EndsWith("\"", StringComparison.Ordinal)
                     && (position.GetChar() == '"' || position.GetChar() == '\''))
+                {
                     TextView.Caret.MoveToNextCaretPosition();
+                }
                 // In either case, if there is a closing parenthesis, move past it
                 var prevChar = position.GetChar();
                 if ((prevChar == '"' || prevChar == '\'')
                  && TextView.Caret.Position.BufferPosition < TextView.TextBuffer.CurrentSnapshot.Length
                  && TextView.Caret.Position.BufferPosition.GetChar() == ')')
+                {
                     TextView.Caret.MoveToNextCaretPosition();
+                }
                 return completion;
             }
         }
@@ -366,7 +396,9 @@
             _currentSession.Dismissed += (sender, args) => _currentSession = null;
 
             if (!_currentSession.IsStarted)
+            {
                 _currentSession.Start();
+            }
 
             return true;
         }
@@ -384,8 +416,8 @@
                         return VSConstants.S_OK;
                 }
             }
+
             return Next.QueryStatus(pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
     }
-
 }

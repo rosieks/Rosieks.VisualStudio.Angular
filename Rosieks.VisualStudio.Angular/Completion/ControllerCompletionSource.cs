@@ -84,23 +84,32 @@
     public static class AngularControllerCompletionUtils
     {
         static readonly Regex regex = new Regex(@"(?<=\bcontroller\s*\:\s*(['""]))[a-z0-9_./+=-]*(?=\s*\1\s*\)?)?", RegexOptions.IgnoreCase);
+
         public static Tuple<string, Span> FindCompletionInfo(string line, int cursorPosition)
         {
             var match = regex.Matches(line)
                              .Cast<Match>()
                              .FirstOrDefault(m => m.Index <= cursorPosition && cursorPosition <= m.Index + m.Length);
             if (match == null)
+            {
                 return null;
+            }
 
             string prefix = null;
 
             int precedingSlash;
             if (cursorPosition == match.Index + match.Length)
+            {
                 precedingSlash = match.Value.LastIndexOf('/');
+            }
             else if (cursorPosition == match.Index)
+            {
                 precedingSlash = -1;
+            }
             else
+            {
                 precedingSlash = match.Value.LastIndexOf('/', cursorPosition - match.Index - 1);
+            }
 
             if (precedingSlash >= 0)
             {
@@ -108,12 +117,16 @@
                 prefix = match.Value.Substring(0, precedingSlash);  // Remove(precedingSlash) fails if the / is at the end
             }
             else
+            {
                 precedingSlash = 0;
+            }
 
 
             var followingSlash = match.Value.IndexOf('/', cursorPosition - match.Index);
             if (followingSlash < 0)
+            {
                 followingSlash = match.Length;
+            }
 
             return Tuple.Create(
                 prefix,
@@ -121,6 +134,4 @@
             );
         }
     }
-
-
 }
