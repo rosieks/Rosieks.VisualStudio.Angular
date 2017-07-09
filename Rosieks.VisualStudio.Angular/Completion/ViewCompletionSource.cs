@@ -52,7 +52,7 @@
             if (ngHierarchy != NgHierarchy.Null)
             {
                 IEnumerable<Completion> results = null;
-                if (String.IsNullOrWhiteSpace(info.Item1))
+                if (string.IsNullOrWhiteSpace(info.Item1))
                 {
                     results = GetRootCompletions(ngHierarchy);
                 }
