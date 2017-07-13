@@ -97,6 +97,7 @@ namespace Rosieks.VisualStudio.Angular.Commands
             var searchPaths = new List<string>();
 
             var adjustedFileName = fileName.Contains(".directive.") ? fileName : fileName + ".controller";
+            searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), adjustedFileName));
             searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), fileName));
 
             string codePath;
