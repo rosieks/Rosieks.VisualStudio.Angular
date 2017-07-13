@@ -1,4 +1,6 @@
-﻿namespace Rosieks.VisualStudio.Angular.Commands
+﻿using System.Collections.Generic;
+
+namespace Rosieks.VisualStudio.Angular.Commands
 {
     using System;
     using System.ComponentModel.Design;
@@ -92,9 +94,13 @@
         private string GetCodePath(string path)
         {
             var fileName = Path.GetFileNameWithoutExtension(path);
-            fileName = fileName.Contains(".directive.") ? fileName : fileName + ".controller";
-            string codePath = Path.Combine(Path.GetDirectoryName(path), fileName);
-            if (FileHelper.TryFind(codePath, AngularPackage.CodeExtensions, out codePath))
+            var searchPaths = new List<string>();
+
+            var adjustedFileName = fileName.Contains(".directive.") ? fileName : fileName + ".controller";
+            searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), fileName));
+
+            string codePath;
+            if (FileHelper.TryFind(searchPaths.ToArray(), AngularPackage.CodeExtensions, out codePath))
             {
                 return codePath;
             }
