@@ -94,7 +94,8 @@
         }
 
         public void SubjectBuffersDisconnected(IWpfTextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers)
-        { }
+        {
+        }
     }
 
     internal sealed class JsCommandFilter : IOleCommandTarget
@@ -104,7 +105,9 @@
         static readonly Type jsTaggerType = typeof(JavaScriptLanguageService).Assembly.GetType("Microsoft.VisualStudio.JSLS.Classification.Tagger");
 
         public IWpfTextView TextView { get; private set; }
+
         public Intel.ICompletionBroker Broker { get; private set; }
+
         public IOleCommandTarget Next { get; set; }
 
         private static char GetTypeChar(IntPtr pvaIn)

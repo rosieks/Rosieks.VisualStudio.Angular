@@ -29,6 +29,7 @@
     internal class NgDirectiveAttribute
     {
         public string DashedName { get; set; }
+
         public string Name { get; set; }
     }
 }

@@ -35,7 +35,6 @@
                     dte = ServiceProvider.GlobalProvider.GetService(typeof(DTE)) as DTE;
                 }
 
-
                 return dte;
             }
         }

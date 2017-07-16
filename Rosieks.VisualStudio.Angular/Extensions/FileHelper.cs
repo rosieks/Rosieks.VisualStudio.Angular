@@ -1,6 +1,7 @@
 ﻿namespace Rosieks.VisualStudio.Angular.Extensions
 {
     using System.IO;
+
     internal class FileHelper
     {
         internal static bool TryFind(string path, string[] extensions, out string fileName)

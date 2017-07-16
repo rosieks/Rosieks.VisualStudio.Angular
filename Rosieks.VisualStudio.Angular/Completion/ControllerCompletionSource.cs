@@ -121,7 +121,6 @@
                 precedingSlash = 0;
             }
 
-
             var followingSlash = match.Value.IndexOf('/', cursorPosition - match.Index);
             if (followingSlash < 0)
             {

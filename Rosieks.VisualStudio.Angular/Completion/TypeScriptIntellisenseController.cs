@@ -95,7 +95,8 @@
         }
 
         public void SubjectBuffersDisconnected(IWpfTextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers)
-        { }
+        {
+        }
     }
 
     internal sealed class TsCommandFilter : IOleCommandTarget
@@ -105,7 +106,9 @@
         private Intel.ICompletionSession _currentSession;
 
         public IWpfTextView TextView { get; private set; }
+
         public Intel.ICompletionBroker Broker { get; private set; }
+
         public IOleCommandTarget Next { get; set; }
 
         private static char GetTypeChar(IntPtr pvaIn)
