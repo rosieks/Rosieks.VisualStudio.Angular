@@ -196,14 +196,17 @@
                         }
 
                         var c = Complete(force: false, dontAdvance: true);
+                        
                         // If the completion inserted a quote, don't add another one
                         handled = c != null && c.InsertionText.EndsWith(ch.ToString(), StringComparison.Ordinal);
                     }
                     else if (ch == '/')
                     {
                         var c = Complete(force: false, dontAdvance: true);
+
                         // If the completion inserted a slash, don't add another one.
                         handled = c != null && c.InsertionText.EndsWith("/", StringComparison.Ordinal);
+
                         // We will re-open completion after handling the keypress, to
                         // show completions for this folder.
                     }
@@ -211,9 +214,11 @@
                     {
                         var c = Complete(force: false, dontAdvance: true);
                         handled = c != null;
+
                         // We will re-open completion after handling the keypress, to
                         // show completions for this folder.
                     }
+
                     break;
                 case VSConstants.VSStd2KCmdID.AUTOCOMPLETE:
                 case VSConstants.VSStd2KCmdID.SHOWMEMBERLIST:
