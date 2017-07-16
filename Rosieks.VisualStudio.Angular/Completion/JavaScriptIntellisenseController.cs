@@ -187,7 +187,6 @@
                         // If the user typed a closing quote, remove any trailing semicolon to match
                         if (_currentSession != null)
                         {
-
                             var s = _currentSession.SelectedCompletionSet.SelectionStatus;
                             if (s.IsSelected && s.Completion.InsertionText.EndsWith(ch + ";", StringComparison.Ordinal))
                             {
