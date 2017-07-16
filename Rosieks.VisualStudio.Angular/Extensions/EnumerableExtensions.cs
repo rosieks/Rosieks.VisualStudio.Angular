@@ -14,7 +14,8 @@
 
         public static IEnumerable<string> IsValidPath(this IEnumerable<string> paths)
         {
-            return paths.Where(x => {
+            return paths.Where(x =>
+            {
                 if (x.Length >= 260)
                 {
                     return false;

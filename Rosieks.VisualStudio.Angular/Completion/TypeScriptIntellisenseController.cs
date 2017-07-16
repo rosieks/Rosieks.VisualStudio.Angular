@@ -40,10 +40,14 @@
         public async void SubjectBuffersConnected(IWpfTextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers)
         {
             if (textView.Properties.ContainsProperty("TsCommandFilter"))
+            {
                 return;
+            }
 
             if (!subjectBuffers.Any(b => b.ContentType.IsOfType("TypeScript")))
+            {
                 return;
+            }
 
             var adapter = EditorAdaptersFactoryService.GetViewAdapter(textView);
             var filter = textView.Properties.GetOrCreateSingletonProperty<TsCommandFilter>("TsCommandFilter", () => new TsCommandFilter(textView, CompletionBroker, _standardClassifications, _classifierAggregatorService));
@@ -63,7 +67,10 @@
                 filter.Next = next;
 
                 if (IsJSLSInstalled(next) || ++tries > 10)
+                {
                     return;
+                }
+
                 await Task.Delay(500);
                 adapter.RemoveCommandFilter(filter);    // Remove the too-early filter and try again.
             }
@@ -136,7 +143,9 @@
         public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
             if (pguidCmdGroup != VSConstants.VSStd2K || !IsValidTextBuffer())
+            {
                 return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+            }
 
             // This filter should only have do anything inside a string literal, or when opening a string literal.
             var classifications = GetCaretClassifications();
@@ -147,11 +156,15 @@
             if (!isInString && !isInComment)
             {
                 if (command != VSConstants.VSStd2KCmdID.TYPECHAR)
+                {
                     return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+                }
 
                 char ch = GetTypeChar(pvaIn);
                 if (ch != '"' && ch != '\'' && ch != '@')
+                {
                     return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+                }
             }
 
             bool closedCompletion = false;
@@ -174,7 +187,9 @@
 
                             var s = _currentSession.SelectedCompletionSet.SelectionStatus;
                             if (s.IsSelected && s.Completion.InsertionText.EndsWith(ch + ";", StringComparison.Ordinal))
+                            {
                                 s.Completion.InsertionText = s.Completion.InsertionText.TrimEnd(';');
+                            }
                         }
 
                         var c = Complete(force: false, dontAdvance: true);
@@ -236,7 +251,9 @@
                     else if (ch == '"' || ch == '\'' || ch == '/' || ch == '.' || ch == '@' || (!char.IsPunctuation(ch) && !char.IsControl(ch)))
                     {
                         if (!closedCompletion)
+                        {
                             StartSession();
+                        }
                     }
                     else if (_currentSession != null)
                     {
@@ -347,6 +364,7 @@
                 {
                     return null;
                 }
+
                 var position = positionNullable.Value;
 
                 if (position.Position == TextView.TextBuffer.CurrentSnapshot.Length)
@@ -371,6 +389,7 @@
                 {
                     TextView.Caret.MoveToNextCaretPosition();
                 }
+
                 // In either case, if there is a closing parenthesis, move past it
                 var prevChar = position.GetChar();
                 if ((prevChar == '"' || prevChar == '\'')
@@ -402,6 +421,7 @@
             {
                 _currentSession = Broker.GetSessions(TextView)[0];
             }
+
             _currentSession.Dismissed += (sender, args) => _currentSession = null;
 
             if (!_currentSession.IsStarted)

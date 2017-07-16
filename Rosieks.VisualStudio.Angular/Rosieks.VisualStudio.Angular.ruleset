@@ -77,5 +77,8 @@
     <Rule Id="SA1200" Action="Error" />
     <Rule Id="SA1210" Action="Error" />
     <Rule Id="SA1520" Action="Error" />
+    <Rule Id="SA1508" Action="Error" />
+    <Rule Id="SA1500" Action="Error" />
+    <Rule Id="SA1503" Action="Error" />
   </Rules>
 </RuleSet>

@@ -39,10 +39,14 @@
         public async void SubjectBuffersConnected(IWpfTextView textView, ConnectionReason reason, Collection<ITextBuffer> subjectBuffers)
         {
             if (textView.Properties.ContainsProperty("JsCommandFilter"))
+            {
                 return;
+            }
 
             if (!subjectBuffers.Any(b => b.ContentType.IsOfType("JavaScript")))
+            {
                 return;
+            }
 
             var adapter = EditorAdaptersFactoryService.GetViewAdapter(textView);
             var filter = textView.Properties.GetOrCreateSingletonProperty<JsCommandFilter>("JsCommandFilter", () => new JsCommandFilter(textView, CompletionBroker, _standardClassifications));
@@ -62,7 +66,10 @@
                 filter.Next = next;
 
                 if (IsJSLSInstalled(next) || ++tries > 10)
+                {
                     return;
+                }
+
                 await Task.Delay(500);
                 adapter.RemoveCommandFilter(filter);    // Remove the too-early filter and try again.
             }
@@ -117,7 +124,9 @@
             var buffers = TextView.BufferGraph.GetTextBuffers(b => b.ContentType.IsOfType("JavaScript") && TextView.GetSelection("JavaScript").HasValue && TextView.GetSelection("JavaScript").Value.Snapshot.TextBuffer == b);
 
             if (!buffers.Any())
+            {
                 return Enumerable.Empty<IClassificationType>();
+            }
 
             if (buffers.First().Properties.TryGetProperty<ITagger<ClassificationTag>>(jsTaggerType, out var tagger))
             {
@@ -134,7 +143,9 @@
         public int Exec(ref Guid pguidCmdGroup, uint nCmdID, uint nCmdexecopt, IntPtr pvaIn, IntPtr pvaOut)
         {
             if (pguidCmdGroup != VSConstants.VSStd2K || !IsValidTextBuffer())
+            {
                 return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+            }
 
             // This filter should only have do anything inside a string literal, or when opening a string literal.
             var classifications = GetCaretClassifications();
@@ -145,11 +156,15 @@
             if (!isInString && !isInComment)
             {
                 if (command != VSConstants.VSStd2KCmdID.TYPECHAR)
+                {
                     return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+                }
 
                 char ch = GetTypeChar(pvaIn);
                 if (ch != '"' && ch != '\'' && ch != '@')
+                {
                     return Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+                }
             }
 
             bool closedCompletion = false;
@@ -172,7 +187,9 @@
 
                             var s = _currentSession.SelectedCompletionSet.SelectionStatus;
                             if (s.IsSelected && s.Completion.InsertionText.EndsWith(ch + ";", StringComparison.Ordinal))
+                            {
                                 s.Completion.InsertionText = s.Completion.InsertionText.TrimEnd(';');
+                            }
                         }
 
                         var c = Complete(force: false, dontAdvance: true);
@@ -214,10 +231,14 @@
 
             int hresult = VSConstants.S_OK;
             if (!handled)
+            {
                 hresult = Next.Exec(pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+            }
 
             if (!ErrorHandler.Succeeded(hresult))
+            {
                 return hresult;
+            }
 
             switch (command)
             {
@@ -230,12 +251,15 @@
                     else if (ch == '"' || ch == '\'' || ch == '/' || ch == '.' || ch == '@' || (!char.IsPunctuation(ch) && !char.IsControl(ch)))
                     {
                         if (!closedCompletion)
+                        {
                             StartSession();
+                        }
                     }
                     else if (_currentSession != null)
                     {
                         Filter();
                     }
+
                     break;
                 case VSConstants.VSStd2KCmdID.DELETE:
                 case VSConstants.VSStd2KCmdID.DELETEWORDLEFT:
@@ -373,6 +397,7 @@
                 {
                     TextView.Caret.MoveToNextCaretPosition();
                 }
+
                 return completion;
             }
         }
@@ -380,7 +405,9 @@
         bool StartSession()
         {
             if (_currentSession != null)
+            {
                 return false;
+            }
 
             SnapshotPoint caret = TextView.Caret.Position.BufferPosition;
             ITextSnapshot snapshot = caret.Snapshot;
@@ -393,6 +420,7 @@
             {
                 _currentSession = Broker.GetSessions(TextView)[0];
             }
+
             _currentSession.Dismissed += (sender, args) => _currentSession = null;
 
             if (!_currentSession.IsStarted)
