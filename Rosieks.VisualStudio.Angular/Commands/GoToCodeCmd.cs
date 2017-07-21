@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace Rosieks.VisualStudio.Angular.Commands
+﻿namespace Rosieks.VisualStudio.Angular.Commands
 {
     using System;
     using System.ComponentModel.Design;
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Collections.Generic;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
@@ -96,6 +95,7 @@ namespace Rosieks.VisualStudio.Angular.Commands
             var fileName = Path.GetFileNameWithoutExtension(path);
             var searchPaths = new List<string>();
 
+            // SEACH FOR THE FOLLOWING FILES {viewName}.directive.js, {viewName}.controller.js, {viewName}.js
             var adjustedFileName = fileName.Contains(".directive.") ? fileName : fileName + ".controller";
             searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), adjustedFileName));
             searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), fileName));
