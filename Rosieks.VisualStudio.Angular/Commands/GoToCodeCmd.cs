@@ -5,6 +5,7 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.InteropServices;
+    using System.Collections.Generic;
     using EnvDTE;
     using Microsoft.VisualStudio.Shell;
     using Microsoft.VisualStudio.Shell.Interop;
@@ -92,9 +93,15 @@
         private string GetCodePath(string path)
         {
             var fileName = Path.GetFileNameWithoutExtension(path);
-            fileName = fileName.Contains(".directive.") ? fileName : fileName + ".controller";
-            string codePath = Path.Combine(Path.GetDirectoryName(path), fileName);
-            if (FileHelper.TryFind(codePath, AngularPackage.CodeExtensions, out codePath))
+            var searchPaths = new List<string>();
+
+            // SEACH FOR THE FOLLOWING FILES {viewName}.directive.js, {viewName}.controller.js, {viewName}.js
+            var adjustedFileName = fileName.Contains(".directive.") ? fileName : fileName + ".controller";
+            searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), adjustedFileName));
+            searchPaths.Add(Path.Combine(Path.GetDirectoryName(path), fileName));
+
+            string codePath;
+            if (FileHelper.TryFind(searchPaths.ToArray(), AngularPackage.CodeExtensions, out codePath))
             {
                 return codePath;
             }
